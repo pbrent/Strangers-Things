@@ -20,13 +20,13 @@ const App = () => {
   return (
     <>
       <h1>Placeholder</h1>
-      {
+      {/* {
         posts.map((post) => <div key={post.data.posts[0].id}>
             <h3>{post.title}</h3>
             <div>{post.body}</div>
         
-        </div>)
-      }
+        </div>
+      )} */}
     </>
   );
 };
