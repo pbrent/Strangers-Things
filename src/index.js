@@ -1,42 +1,44 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-// import {baseUrl} from './api';
+import {baseUrl} from './api';
 
 const App = () => {
   const [allPosts, setAllPosts] = useState([]);
-  // console.log(allPosts)
+    console.log('this is allPosts', allPosts)
 
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const response = await fetch(`${baseUrl}/posts`);
-  //       const result = await response.json();
-        
-        
-  //       setAllPosts(result);
-        
-  //     } catch (error) {
-  //       console.error(error)
-  //     }
-
-  //   };
-
-  //   fetchPosts();
-  // }, []);
-
-    useEffect(() => {
-      const fetchPosts = async () => {
-        const response = await fetch('https://jsonplaceholder.typicode.com/posts/1');
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/posts`);
         const result = await response.json();
         
-        setAllPosts(result);
+        
+        setAllPosts(result.data.posts);
+        
+      } catch (error) {
+        console.error(error)
       }
-      fetchPosts();
-    })
+
+    };
+
+    fetchPosts();
+  }, []);
+
+    
 
   return (
     <div>
-      <h1>POSTS</h1>
+      <h1>Posts</h1>
+      {
+        allPosts.map((post, _id) => {
+          return <div key={_id}>
+              <h3>{post.title}</h3>
+              <p>Description: {post.description}</p>
+              <p>Location: {post.location}</p>
+              <p>Price: {post.price}</p>
+          </div>
+        })
+      }
       
     </div>
   );
