@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react";
 import { baseUrl } from "../api";
 import "./Register.css";
+import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -9,7 +10,7 @@ const Login = () => {
   const [submitted, setSubmitted] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
   const [currentLoggedInUser, setCurrentLoggedInUser] = useState('');
-  // const [token, setToken] = useState('');
+  const [token, setToken] = useState('');
   
   
 
@@ -44,18 +45,18 @@ const Login = () => {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log('this is the login result', result);
-          // setToken(data.token);
+          console.log('this is the login result', result.data.token);
+          
+          setToken(result.data.token);
         })
         .catch(console.error);
     } catch (error) {};
 
     localStorage.setItem("username", username);
     localStorage.setItem("password", password);
-    // localStorage.setItem('token', token);
+    localStorage.setItem('token', token);
 
     console.log('this is local storage', localStorage)
-
     setUsername('');
     setPassword('');
 
@@ -89,7 +90,7 @@ const Login = () => {
         <button onClick={handleSubmit} className="btn" type="submit">
           Submit
         </button>
-        <p>Not registered yet? Create Account here</p>
+        <p>Not registered yet? <Link to='/register'>Create Account here</Link></p>
       </form>
 
 

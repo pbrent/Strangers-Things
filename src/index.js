@@ -1,46 +1,48 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { baseUrl } from "./api";
-import { PostList, Register, Header, Login, Home } from "./components/index";
-import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
+import { PostList, Register, Login, Home } from "./components/index";
+import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
+import "./styles.css"
+
 
 const App = () => {
-  // const [allPosts, setAllPosts] = useState([]);
-  // console.log("this is allPosts", allPosts);
-
-  // useEffect(() => {
-  //   const fetchPosts = async () => {
-  //     try {
-  //       const response = await fetch(`${baseUrl}/posts`);
-  //       const result = await response.json();
-
-  //       setAllPosts(result.data.posts);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   };
-
-  //   fetchPosts();
-  // }, []);
+  
 
   return (
     
       <Router>
       <div>
-        <Switch>
-          <Header />
-          <Route exact path="/">
-            <h1>Welcome to Stranger's Things</h1>
-            <h2>Please login above</h2>
-          </Route>  
-          <Route path="/login">
-            <Login />
-          </Route>  
+        <header>
+            <h1>Stranger's Things</h1>
+        </header>
+
+        <navbar className="navbar">
+          
+          <Link to="/home">Home</Link>
+          <Link to="/posts">Posts</Link>
+          <Link to="/login">Login</Link>
+        </navbar>
+
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/posts" element={<PostList />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          {/* <Route path="/" element={<Home />} /> */}
+
+        </Routes>
+        
+        
+            
+            {/* <Home /> */}
+          
+            {/* <Login /> */}
+          
           {/* <Register /> */}
           {/* <PostList  /> */}
-        </Switch> 
+        
       </div>
-    </Router>
+     </Router>
   );
 };
 

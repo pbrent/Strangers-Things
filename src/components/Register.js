@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react";
 import { baseUrl } from "../api";
 import "./Register.css";
+import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
+
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -132,7 +134,7 @@ const Register = () => {
           Submit
         </button>
       </form>
-      <p>Already have an account? Sign In</p>
+      <p>Already have an account? <Link to='/login'>Sign In</Link></p>
     </div>
   );
 };
