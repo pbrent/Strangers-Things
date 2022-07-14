@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { baseUrl } from "./api";
-import { PostList, Login, Header } from "./components/index";
+import { PostList, Register, Header, Login, Home } from "./components/index";
+import { BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 
 const App = () => {
   // const [allPosts, setAllPosts] = useState([]);
@@ -23,12 +24,23 @@ const App = () => {
   // }, []);
 
   return (
-    <div>
-      <Header />
-      <Login />
-      <PostList  />
-      
-    </div>
+    
+      <Router>
+      <div>
+        <Switch>
+          <Header />
+          <Route exact path="/">
+            <h1>Welcome to Stranger's Things</h1>
+            <h2>Please login above</h2>
+          </Route>  
+          <Route path="/login">
+            <Login />
+          </Route>  
+          {/* <Register /> */}
+          {/* <PostList  /> */}
+        </Switch> 
+      </div>
+    </Router>
   );
 };
 

@@ -1,3 +1,5 @@
 export { default as PostList } from './Post-List'
-export { default as Login } from './Login'
+export { default as Register } from './Register'
 export { default as Header } from './Header.js'
+export { default as Login } from './Login.js'
+export { default as Home } from './Home'

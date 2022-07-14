@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReactDOM from "react";
 import { baseUrl } from "../api";
-import './Login.css'
+import "./Register.css";
 
 const Login = () => {
-  const [userName, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [password2, setPassword2] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
+  const [currentLoggedInUser, setCurrentLoggedInUser] = useState('');
+  // const [token, setToken] = useState('');
+  
+  
 
   const handleUsername = (event) => {
     setUsername(event.target.value);
@@ -22,9 +25,10 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
       fetch(
-        `${baseUrl}/users/register`,
+        `${baseUrl}/users/login`,
         {
           method: "POST",
           headers: {
@@ -32,7 +36,7 @@ const Login = () => {
           },
           body: JSON.stringify({
             user: {
-              username: userName,
+              username: username,
               password: password,
             },
           }),
@@ -40,56 +44,58 @@ const Login = () => {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log("this is the result", result);
+          console.log('this is the login result', result);
+          // setToken(data.token);
         })
         .catch(console.error);
-    } catch (error) {}
-    if (userName === '' || password === '') {
-        setErrorAlert(true)
-    } else {
-        setSubmitted(true);
-        setErrorAlert(false);
-    }
-  };
+    } catch (error) {};
 
-  const successMessage = () => {
-    return (
-        <div className = 'success' style={{display: submitted ? '' : 'none',}}>
-            <h1>User {userName} successfully registered!</h1>
-        </div>
-    );
-  }
-  
-  const errorMessage = () => {
-    return (
-        <div className='error' style={{display: errorAlert ? '' : 'none', }}>
-            <h1>Please enter all required fields</h1>
-        </div>
-    );
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
+    // localStorage.setItem('token', token);
+
+    console.log('this is local storage', localStorage)
+
+    setUsername('');
+    setPassword('');
+
   };
 
   return (
     <div className="form">
-        <div>
-            <h1>User Registration</h1>
-        </div>
-        <div className="messages">
-            {errorMessage()}
-            {successMessage()}  
-        </div>
+      <h1>Login</h1>
 
-        <form>
-            <label className="label">Username: </label>
-            <input placeholder='Username' onChange={handleUsername} className="input" value={userName} type="text" required />
+      <form>
+        <label className="label">Username: </label>
+        <input
+          placeholder="Username"
+          onChange={handleUsername}
+          className="input"
+          value={username}
+          type="text"
+          required
+        />
 
-            <label className="label"> Password: </label>
-            <input placeholder='Password' minLength='6' onChange={handlePassword} className="input" value={password} type="password" required />
+        <label className="label">Password: </label>
+        <input
+          placeholder="Password"
+          onChange={handlePassword}
+          className="input"
+          value={password}
+          type="password"
+          required
+        />
 
-            <button onClick={handleSubmit} className="btn" type="submit">Submit</button>
-        </form>
+        <button onClick={handleSubmit} className="btn" type="submit">
+          Submit
+        </button>
+        <p>Not registered yet? Create Account here</p>
+      </form>
+
+
 
     </div>
-  )
+  );
 };
 
 export default Login;
