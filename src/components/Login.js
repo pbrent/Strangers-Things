@@ -3,6 +3,7 @@ import ReactDOM from "react";
 import { baseUrl } from "../api";
 import "./Register.css";
 import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
+import { storeCurrentUser } from "../auth";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -45,27 +46,53 @@ const Login = () => {
       )
         .then((response) => response.json())
         .then((result) => {
-          console.log('this is the login result', result.data.token);
+          // console.log('this is the login result', result);
+          localStorage.setItem('token', JSON.stringify(result.data.token));
+          setToken(result.data.token)
           
-          setToken(result.data.token);
+          
         })
         .catch(console.error);
     } catch (error) {};
+    if (username === "" || password === "") {
+      setErrorAlert(true);
+    } else {
+      setSubmitted(true);
+      setErrorAlert(false);
+    }
 
-    localStorage.setItem("username", username);
-    localStorage.setItem("password", password);
-    localStorage.setItem('token', token);
+    // localStorage.setItem("username", username);
+    // localStorage.setItem("password", password);
 
-    console.log('this is local storage', localStorage)
+    // console.log('this is local storage', localStorage)
     setUsername('');
     setPassword('');
 
   };
 
+  const successMessage = () => {
+    return (
+      <div className="success" style={{ display: submitted ? "" : "none" }}>
+        <h1>User {username} logged in!</h1>
+      </div>
+    );
+  };
+
+  const errorMessage = () => {
+    return (
+      <div className="error" style={{ display: errorAlert ? "" : "none" }}>
+        <h1>Please enter all required fields</h1>
+      </div>
+    );
+  };
+
   return (
     <div className="form">
       <h1>Login</h1>
-
+        <div className="messages">
+          {errorMessage()}
+          {successMessage()}
+        </div>
       <form>
         <label className="label">Username: </label>
         <input

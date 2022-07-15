@@ -11,7 +11,7 @@ const Register = () => {
   const [password2, setPassword2] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
-  // const [token, setToken] = useState({});
+  const [token, setToken] = useState('');
 
   const handleUsername = (event) => {
     setUsername(event.target.value);
@@ -46,9 +46,12 @@ const Register = () => {
         .then((response) => response.json())
         .then((result) => {
           console.log("this is the result", result);
+          localStorage.setItem('token', JSON.stringify(result.data.token));
+          setToken(result.data.token)
+          
+
         })
-        // setToken(result.data.token)
-        console.log("this is token", token)
+        
         .catch(console.error);
     } catch (error) {}
     if (username === "" || password === "") {
@@ -63,8 +66,7 @@ const Register = () => {
 
     localStorage.setItem('username', username);
     localStorage.setItem('password', password);
-    // localStorage.setItem('token', token);
-    // setToken(result.data.token)
+    
     setUsername('');
     setPassword('');
     setPassword2('');
