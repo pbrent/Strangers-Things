@@ -5,7 +5,7 @@ import { baseUrl } from "../api";
 const PostList = () => {
   
   const [allPosts, setAllPosts] = useState([]);
-  // console.log("this is allPosts", allPosts);
+  
   
     const fetchPosts = async () => {
       try {

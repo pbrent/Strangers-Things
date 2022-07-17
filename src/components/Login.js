@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react";
 import { baseUrl } from "../api";
 import "./Register.css";
-import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import { storeCurrentUser } from "../auth";
 
-const Login = () => {
+const Login = ({ token, setToken }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
-  const [currentLoggedInUser, setCurrentLoggedInUser] = useState('');
-  const [token, setToken] = useState('');
-  
-  
 
   const handleUsername = (event) => {
     setUsername(event.target.value);
@@ -29,31 +25,39 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      fetch(
-        `${baseUrl}/users/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+      fetch(`${baseUrl}/users/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: {
+            username: username,
+            password: password,
           },
-          body: JSON.stringify({
-            user: {
-              username: username,
-              password: password,
-            },
-          }),
-        }
-      )
+        }),
+      })
         .then((response) => response.json())
         .then((result) => {
-          // console.log('this is the login result', result);
-          localStorage.setItem('token', JSON.stringify(result.data.token));
-          setToken(result.data.token)
+          console.log("this is the login result", result);
+          localStorage.setItem("token", result.data.token);
+          localStorage.setItem("username", username);
+          localStorage.setItem("password", password);
+
           
-          
+
+          setUsername("");
+          setPassword("");
+
+          location.replace("/home");
+
+          const user = {
+            username,
+            password,
+          };
         })
         .catch(console.error);
-    } catch (error) {};
+    } catch (error) {}
     if (username === "" || password === "") {
       setErrorAlert(true);
     } else {
@@ -61,13 +65,7 @@ const Login = () => {
       setErrorAlert(false);
     }
 
-    // localStorage.setItem("username", username);
-    // localStorage.setItem("password", password);
-
     // console.log('this is local storage', localStorage)
-    setUsername('');
-    setPassword('');
-
   };
 
   const successMessage = () => {
@@ -89,10 +87,10 @@ const Login = () => {
   return (
     <div className="form">
       <h1>Login</h1>
-        <div className="messages">
-          {errorMessage()}
-          {successMessage()}
-        </div>
+      <div className="messages">
+        {errorMessage()}
+        {successMessage()}
+      </div>
       <form>
         <label className="label">Username: </label>
         <input
@@ -117,11 +115,10 @@ const Login = () => {
         <button onClick={handleSubmit} className="btn" type="submit">
           Submit
         </button>
-        <p>Not registered yet? <Link to='/register'>Create Account here</Link></p>
+        <p>
+          Not registered yet? <Link to="/register">Create Account here</Link>
+        </p>
       </form>
-
-
-
     </div>
   );
 };

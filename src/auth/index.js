@@ -6,3 +6,4 @@ export function storeCurrentUser(user) {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     return user;
   }
+

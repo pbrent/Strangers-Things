@@ -46,8 +46,8 @@ const Register = () => {
         .then((response) => response.json())
         .then((result) => {
           console.log("this is the result", result);
-          localStorage.setItem('token', JSON.stringify(result.data.token));
-          setToken(result.data.token)
+          localStorage.setItem('token', result.data.token);
+          // setToken(result.data.token)
           
 
         })
