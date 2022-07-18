@@ -3,7 +3,6 @@ import ReactDOM from "react";
 import { baseUrl } from "../api";
 import "./Register.css";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import { storeCurrentUser } from "../auth";
 
 const Login = ({ token, setToken }) => {
   const [username, setUsername] = useState("");
@@ -21,7 +20,7 @@ const Login = ({ token, setToken }) => {
     setSubmitted(false);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     try {
@@ -44,17 +43,10 @@ const Login = ({ token, setToken }) => {
           localStorage.setItem("username", username);
           localStorage.setItem("password", password);
 
-          
-
           setUsername("");
           setPassword("");
 
           location.replace("/home");
-
-          const user = {
-            username,
-            password,
-          };
         })
         .catch(console.error);
     } catch (error) {}
@@ -63,9 +55,10 @@ const Login = ({ token, setToken }) => {
     } else {
       setSubmitted(true);
       setErrorAlert(false);
+      
     }
 
-    // console.log('this is local storage', localStorage)
+    
   };
 
   const successMessage = () => {
