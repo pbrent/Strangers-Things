@@ -38,7 +38,7 @@ const Login = ({ token, setToken }) => {
       })
         .then((response) => response.json())
         .then((result) => {
-          console.log("this is the login result", result);
+          
           localStorage.setItem("token", result.data.token);
           localStorage.setItem("username", username);
           localStorage.setItem("password", password);

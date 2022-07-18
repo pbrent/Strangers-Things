@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react";
 import { baseUrl } from "../api";
 import "./Register.css";
-import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom';
-
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -11,7 +10,7 @@ const Register = () => {
   const [password2, setPassword2] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
 
   const handleUsername = (event) => {
     setUsername(event.target.value);
@@ -46,12 +45,10 @@ const Register = () => {
         .then((response) => response.json())
         .then((result) => {
           console.log("this is the result", result);
-          localStorage.setItem('token', result.data.token);
+          localStorage.setItem("token", result.data.token);
           // setToken(result.data.token)
-          
-
         })
-        
+
         .catch(console.error);
     } catch (error) {}
     if (username === "" || password === "") {
@@ -64,13 +61,12 @@ const Register = () => {
       setErrorAlert(true);
     }
 
-    localStorage.setItem('username', username);
-    localStorage.setItem('password', password);
-    
-    setUsername('');
-    setPassword('');
-    setPassword2('');
+    localStorage.setItem("username", username);
+    localStorage.setItem("password", password);
 
+    setUsername("");
+    setPassword("");
+    setPassword2("");
   };
 
   const successMessage = () => {
@@ -136,7 +132,9 @@ const Register = () => {
           Submit
         </button>
       </form>
-      <p>Already have an account? <Link to='/login'>Sign In</Link></p>
+      <p>
+        Already have an account? <Link to="/login">Sign In</Link>
+      </p>
     </div>
   );
 };

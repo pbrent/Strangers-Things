@@ -7,7 +7,7 @@ import {
   Home,
   Profile,
   Logout,
-  Create
+  
 } from "./components/index";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./styles.css";
@@ -68,7 +68,6 @@ const App = () => {
             path="/logout"
             element={<Logout token={token} setToken={setToken} />}
           />
-          
         </Routes>
         {
           // token && token.length ? <div>heres your token {token}</div> : <div>no token</div>

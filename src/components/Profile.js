@@ -2,20 +2,45 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react";
 import { baseUrl } from "../api";
 
-
 const Profile = ({ token }) => {
   const [myProfilePosts, setMyProfilePosts] = useState([]);
-  const [myProfileMessages, setMyProfileMessages] = useState([])
   const [title, setTitle] = useState([]);
   const [description, setDescription] = useState([]);
   const [price, setPrice] = useState([]);
   const [location, setLocation] = useState([]);
   const [ifWillDeliver, setIfWillDeliver] = useState(false);
-  
+  const [messages, setMessages] = useState([]);
+  const [content, setContent] = useState([]);
 
+  const handleMessage = async (event) => {
+    try {
+      fetch(`${baseUrl}/posts/${postId}/messages`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          message: {
+            content: content,
+          },
+        }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("this is message result", result);
+        });
+    } catch (error) {}
+    // return (
+    //   <form>
+    //     <h3>Create Message</h3>
+    //       <input type="text" value={messages} onChange={() => setMessages(event.target.value)} />
+    //       <button type="submit" onClick={() => handleMessage(event)}
+    //   </form>
+    // )
+  };
 
   const handleDelete = async (postIdToDelete) => {
-    // console.log("postIdToDelete:", postIdToDelete);
     const fetchDelete = await fetch(`${baseUrl}/posts/${postIdToDelete}`, {
       method: "DELETE",
       headers: {
@@ -25,12 +50,13 @@ const Profile = ({ token }) => {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log("this is delete result:", result);
         return result;
-      })
-      
+      });
+
     if (fetchDelete) {
-      const newPosts = myProfilePosts.filter(post => post._id !== postIdToDelete);
+      const newPosts = myProfilePosts.filter(
+        (post) => post._id !== postIdToDelete
+      );
       setMyProfilePosts(newPosts);
     }
   };
@@ -53,9 +79,7 @@ const Profile = ({ token }) => {
       }),
     })
       .then((response) => response.json())
-      .then((result) => {
-        // console.log("this is the result post:", result.data.post);
-      })
+      .then((result) => {})
       .catch(console.error);
   };
 
@@ -70,23 +94,20 @@ const Profile = ({ token }) => {
         })
           .then((response) => response.json())
           .then((result) => {
-            // console.log("this is the result:", result);
-            // setMyProfileMessages(result.data.messages);
+            console.log(result);
             setMyProfilePosts(result.data.posts);
-            // setPostId(result.data.posts._id)
-            // console.log(result.data.posts._id)
+            // setMessages(result.data.messages)
+            // console.log("these are messages:", result.data.messages)
           })
           .catch(console.error);
       } catch (error) {}
     };
-  
+
     fetchMe();
   }, []);
 
-  
   return (
     <>
-    
       <div>
         <h1>Create a Post</h1>
         <form>
@@ -132,7 +153,6 @@ const Profile = ({ token }) => {
       </div>
 
       <div>
-      
         <h1>Posts by {localStorage.getItem("username")}</h1>
         {myProfilePosts.map((post, _id) => {
           return (
@@ -142,8 +162,12 @@ const Profile = ({ token }) => {
               <p>Location: {post.location}</p>
               <p>Price: {post.price}</p>
               <p>Will deliver? {post.willDeliver}</p>
+              <p>Messages: {post.messages}</p>
               <button type="button" onClick={() => handleDelete(post._id)}>
                 Delete
+              </button>
+              <button type="button" onClick={() => handleMessage(post._id)}>
+                Message
               </button>
             </div>
           );

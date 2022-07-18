@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-
 const Home = ({ token }) => {
-    // const [username, setUsername] = useState('');
   const loggedInMessage = () => {
     return (
       <div className="homepage">
-        <h1>Welcome to Stranger's Things, {localStorage.getItem("username")} </h1>
-        
+        <h1>
+          Welcome to Stranger's Things, {localStorage.getItem("username")}{" "}
+        </h1>
       </div>
     );
   };
@@ -24,8 +23,6 @@ const Home = ({ token }) => {
 
   if (token) {
     return loggedInMessage();
-          
-
   } else {
     return loggedOutMessage();
   }

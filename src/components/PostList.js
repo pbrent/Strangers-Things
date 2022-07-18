@@ -3,30 +3,23 @@ import ReactDOM from "react";
 import { baseUrl } from "../api";
 
 const PostList = () => {
-  
   const [allPosts, setAllPosts] = useState([]);
-  
+
   useEffect(() => {
-    
     const fetchPosts = async () => {
       try {
         const response = await fetch(`${baseUrl}/posts`);
         const result = await response.json();
-        // console.log("this is the result:", result )
-        
+
         setAllPosts(result.data.posts);
       } catch (error) {
         console.error(error);
       }
-      
     };
 
     fetchPosts();
-    
-  }, [])
+  }, []);
 
-  
-  
   return (
     <div>
       <h1>Posts</h1>
